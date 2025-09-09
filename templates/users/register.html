@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Register · GT Movies{% endblock %}
+{% block content %}
+<h1>Register</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-primary" type="submit">Create account</button>
+</form>
+<p class="mt-2">Already have an account? <a href="{% url 'users:login' %}">Login</a></p>
+{% endblock %}

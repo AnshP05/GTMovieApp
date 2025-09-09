@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Edit Review{% endblock %}
+{% block content %}
+<h2>Edit Your Review</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-success">Save Changes</button>
+  <a href="{% url 'movies:detail' review.movie.pk %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

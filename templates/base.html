@@ -1,0 +1,88 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}GT Movies{% endblock %}</title>
+
+  <!-- Bootstrap (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{% static 'css/site.css' %}" rel="stylesheet">
+  <style>
+    /* Full-width layout; remove fixed container to avoid right-side whitespace */
+    main .page-wrap { padding: 1.25rem 1rem; }
+  </style>
+</head>
+<body class="min-vh-100 d-flex flex-column">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'movies:home' %}">GT Movies</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topnav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="topnav" class="collapse navbar-collapse">
+        <!-- Left: main links -->
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="{% url 'movies:home' %}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'movies:about' %}">About</a></li>
+        </ul>
+
+        <!-- Search -->
+        <form class="d-flex me-3" role="search" action="{% url 'movies:search' %}" method="get">
+          <input class="form-control me-2" type="search" name="q" placeholder="Search movies" value="{{ request.GET.q }}">
+          <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
+
+        <!-- Right: auth/cart -->
+        <ul class="navbar-nav">
+          <li class="nav-item me-2">
+            <a class="nav-link" href="{% url 'orders:cart' %}">Cart</a>
+          </li>
+
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'orders:my_orders' %}">My Orders</a>
+            </li>
+            <li class="nav-item">
+              <!-- POST-only logout -->
+              <form action="{% url 'users:logout' %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link nav-link p-0">Log out</button>
+              </form>
+            </li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'users:login' %}">Log in</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'users:signup' %}">Sign up</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow-1">
+    <div class="page-wrap"><!-- full-width content area -->
+      {% if messages %}
+        <div class="container-fluid">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }} mb-3">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <footer class="bg-light text-center py-3 mt-auto">
+    <div class="container-fluid">
+      <small>&copy; {{ now|date:"Y" }} GT Movies</small>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

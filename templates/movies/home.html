@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}GT Movies Store{% endblock %}
+
+{% block content %}
+<h1 class="h4 mb-3">Movies</h1>
+
+<div class="row g-4">
+  {% for m in movies %}
+    <div class="col-md-3">
+      <div class="card h-100">
+        {% if m.image_url %}
+          <img src="{{ m.image_url }}" class="card-img-top" alt="{{ m.title }}">
+        {% else %}
+          <div class="bg-light text-center p-5">No Image</div>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ m.title }}</h5>
+          <p class="card-text">${{ m.price }}</p>
+          <a href="{% url 'movies:movie_detail' m.id %}" class="btn btn-sm btn-primary">Details</a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>No movies yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Checkout · GT Movies{% endblock %}
+
+{% block content %}
+<h1 class="h4 mb-3">Checkout</h1>
+
+<table class="table align-middle">
+  <thead>
+    <tr>
+      <th>Movie</th>
+      <th class="text-end">Price</th>
+      <th class="text-center">Qty</th>
+      <th class="text-end">Line Total</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in items %}
+    <tr>
+      <td>{{ i.movie.title }}</td>
+      <td class="text-end">${{ i.movie.price }}</td>
+      <td class="text-center">{{ i.quantity }}</td>
+      <td class="text-end">${{ i.line_total }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="3" class="text-end">Total</th>
+      <th class="text-end">${{ total }}</th>
+    </tr>
+  </tfoot>
+</table>
+
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-primary">Place Order</button>
+  <a class="btn btn-secondary" href="{% url 'orders:cart' %}">Back to cart</a>
+</form>
+{% endblock %}

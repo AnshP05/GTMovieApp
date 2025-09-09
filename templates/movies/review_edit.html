@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Edit Review · GT Movies{% endblock %}
+{% block content %}
+<h1 class="h4 mb-3">Edit your review</h1>
+<form method="post">
+  {% csrf_token %}
+  <div class="mb-2">{{ form.rating.label_tag }} {{ form.rating }}</div>
+  <div class="mb-3">{{ form.text.label_tag }} {{ form.text }}</div>
+  <button class="btn btn-primary">Save</button>
+  <a class="btn btn-secondary" href="{% url 'movies:movie_detail' review.movie_id %}">Cancel</a>
+</form>
+{% endblock %}

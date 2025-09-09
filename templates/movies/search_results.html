@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Search · GT Movies{% endblock %}
+
+{% block content %}
+<h2>Search Results for "{{ query }}"</h2>
+
+{% if results %}
+  <div class="row g-4">
+    {% for movie in results %}
+      <div class="col-md-3">
+        <div class="card h-100">
+          {% if movie.image_url %}
+            <img src="{{ movie.image_url }}" class="card-img-top" alt="{{ movie.title }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ movie.title }}</h5>
+            <p class="card-text">${{ movie.price }}</p>
+            <a href="{% url 'movies:movie_detail' movie.pk %}" class="btn btn-primary">View</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No results found.</p>
+{% endif %}
+{% endblock %}
