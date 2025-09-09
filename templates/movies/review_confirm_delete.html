@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Delete Review · GT Movies{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h1 class="h4 mb-3">Delete review</h1>
+
+    <div class="alert alert-warning">
+      <strong>Are you sure?</strong> This action cannot be undone.
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <strong>{{ review.user.username }}</strong>
+          <span>⭐ {{ review.rating }}/5</span>
+        </div>
+        <p class="mb-2 mt-2">{{ review.text }}</p>
+        <small class="text-muted">
+          For: <em>{{ review.movie.title }}</em> · {{ review.created_at|date:"Y-m-d H:i" }}
+        </small>
+      </div>
+    </div>
+
+    <form method="post" action="{% url 'movies:review_delete' review.pk %}" class="d-flex gap-2">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Yes, delete it</button>
+      <a class="btn btn-secondary" href="{% url 'movies:movie_detail' review.movie.pk %}">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}
